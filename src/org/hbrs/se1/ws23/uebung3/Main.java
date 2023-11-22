@@ -1,6 +1,7 @@
-package org.hbrs.se1.ws23.solutions.uebung3;
+package org.hbrs.se1.ws23.uebung3;
 
-import org.hbrs.se1.ws23.solutions.uebung3.persistence.*;
+import org.hbrs.se1.ws23.uebung1.view.Client;
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceStrategyStream;
 
 public class Main {
 
@@ -11,6 +12,7 @@ public class Main {
         // Strategie für Stream-Strategy erzeugen und in den Container einsetzen
         container.setPersistenceStrategie( new PersistenceStrategyStream() );
 
-        // Client zur
+        // Client zur Ein- und Ausgabe starten
+        Client client = new Client();
     }
 }

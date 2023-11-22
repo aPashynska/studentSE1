@@ -1,7 +1,11 @@
 package org.hbrs.se1.ws23.uebung1.control;
-
+/**
+ * Student: Anastasiia Pashynska
+ * Date: 17.10.23
+ */
 public class GermanTranslator implements Translator {
-
+	private String [] dictionary = {"eins", "zwei", "drei", "vier", "fünf", "sechs",
+			"sieben", "acht", "neun", "zehn"};
 	public String date = "Okt/2023"; // Default-Wert
 
 	/**
@@ -9,8 +13,13 @@ public class GermanTranslator implements Translator {
 	 */
 	public String translateNumber( int number ) {
 		// [ihr Source Code aus Übung 1-2]
+		// Gültige Zahl, gibt die Übersetzung aus dem Array zurück.
+		try {
+			return dictionary[number-1];
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return "Übersetzung der Zahl " + number + " nicht möglich (" + Translator.version + ")";
+			}
 
-		return "null";
 	}
 
 	/**

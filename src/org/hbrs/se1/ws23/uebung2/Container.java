@@ -33,14 +33,14 @@ public class Container {
      * @return eine Erfolgsmeldung zurück oder informiert, falls kein passendes Objekt gefunden wurde.
      */
     public String deleteMember(Integer id) {
-       for(Member memb: members) {
-           if(memb.getID().equals(id)) {
-               members.remove(memb);
-               return "Das Member-Objekt mit der ID " + id + " ist gelöscht";
-           }
-       }
+        for(Member memb: members) {
+            if(memb.getID().equals(id)) {
+                members.remove(memb);
+                return "Das Member-Objekt mit der ID " + id + " ist gelöscht";
+            }
+        }
         return "Das Member-Objekt mit der ID " + id + " existiert nicht!"; //Fehlende Klarheit und Standardisierung
-                                                                           // in der Fehlerbehandlung
+        // in der Fehlerbehandlung
     }
 
     public void dump(){

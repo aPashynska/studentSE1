@@ -11,6 +11,7 @@ import java.io.Serializable;
         int risk = 0;
         int strafe = 0;
         double prio = 0.0;
+        String project;
 
         public String getProject() {
             return project;
@@ -20,7 +21,6 @@ import java.io.Serializable;
             this.project = project;
         }
 
-        String project;
 
 
         public UserStory(int id, String titel, int mehrwert, int strafe,

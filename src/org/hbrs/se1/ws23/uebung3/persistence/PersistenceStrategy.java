@@ -15,6 +15,7 @@ import java.util.List;
  *
  * @param <E>
  */
+
 public interface PersistenceStrategy<E> {
     public void openConnection() throws PersistenceException;
     public void closeConnection() throws PersistenceException;

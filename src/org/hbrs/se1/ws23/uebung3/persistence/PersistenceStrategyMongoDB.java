@@ -3,7 +3,6 @@ package org.hbrs.se1.ws23.uebung3.persistence;
 import java.util.List;
 
 public class PersistenceStrategyMongoDB<E> implements PersistenceStrategy<E> {
-
     @Override
     public void openConnection() throws PersistenceException {
         throw new UnsupportedOperationException("Not implemented!");
