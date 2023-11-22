@@ -18,7 +18,6 @@ import java.util.Scanner;
  * - Anpassen des Generic in der List-Klasse (ALT: Member, NEU: UserStory)
  * - Anpassen der Methodennamen
  *
- * ToDo: Was ist ihre Strategie zur Wiederverwendung? (F1)
  *
  * Alternative 1:
  * Klasse UserStory implementiert Interface Member (UserStory implements Member)
@@ -30,7 +29,6 @@ import java.util.Scanner;
  *
  * Entwurfsentscheidung: Die wichtigsten Zuständigkeiten (responsibilities) sind in einer Klasse, d.h. Container,
  * diese liegt in einem Package.
- * ToDo: Wie bewerten Sie diese Entscheidung? (F2, F6)
  * 
  */
 
