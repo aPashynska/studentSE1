@@ -1,6 +1,8 @@
 package org.hbrs.se1.ws23.uebung4.prototype;
-    public class UserStory {
-        // ToDo: Sind die Attribute der Klasse UserStory vollständig? (F4)
+
+import java.io.Serializable;
+
+public class UserStory implements Comparable<UserStory>, Serializable {
 
         String titel;
         int aufwand = 0;
@@ -23,14 +25,24 @@ package org.hbrs.se1.ws23.uebung4.prototype;
 
 
         public UserStory(int id, String titel, int mehrwert, int strafe,
-                         int aufwand, int risk, double prio) {
+                         int aufwand, int risk) {
             this.id = id;
             this.titel = titel;
             this.mehrwert = mehrwert;
             this.strafe = strafe;
             this.aufwand = aufwand;
             this.risk = risk;
-            this.prio = prio;
+            findPrio();
+        }
+
+        public double findPrio() {
+            if ((aufwand | risk) != 0)
+            {
+                prio = (double) (mehrwert + strafe) /(aufwand + risk);
+            } else {
+                prio = 0;
+            }
+            return prio;
         }
 
         public UserStory() {
@@ -40,8 +52,7 @@ package org.hbrs.se1.ws23.uebung4.prototype;
             return prio;
         }
 
-        public void setPrio(double prio) {
-            this.prio = prio;
+        public void setPrio(double prio) { this.prio = prio;
         }
 
         public String getTitel() {
@@ -81,5 +92,22 @@ package org.hbrs.se1.ws23.uebung4.prototype;
             this.strafe = strafe;
         }
 
-     }
+    @Override
+    public int compareTo(UserStory o) {
+
+            if( o.getPrio() == this.getPrio()) {
+                return 0;
+            }
+            if (o.getPrio() > this.getPrio()) {
+                return 1;
+            } else {
+                return -1;
+            }
+    }
+
+    public String toSTring() {
+            return "ID: " + this.id + "; titel: " + getTitel() + "; Prio: " + getPrio();
+
+    }
+}
 

@@ -1,8 +1,11 @@
 package org.hbrs.se1.ws23.uebung4.prototype;
 
 import java.io.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
 
 /*
  * Klasse zum Management sowie zur Eingabe unnd Ausgabe von User-Stories.
@@ -39,9 +42,7 @@ public class Container {
 	// Statische Klassen-Variable, um die Referenz
 	// auf das einzige Container-Objekt abzuspeichern
 	// Diese Variante sei thread-safe, so hat Hr. P. es gehört... stimmt das?
-	// Todo: Bewertung Thread-Safeness (F1)
 	// Nachteil: ggf. geringer Speicherbedarf, da Singleton zu Programmstart schon erzeugt wird
-	// Todo: Bewertung Speicherbedarf (F1)
 	private static Container instance = new Container();
 	
 	// URL der Datei, in der die Objekte gespeichert werden 
@@ -59,7 +60,7 @@ public class Container {
 	 * Vorschriftsmäßiges Ueberschreiben des Konstruktors (private) gemaess Singleton-Pattern (oder?)
 	 * Nun auf private gesetzt! Vorher ohne Access Qualifier (--> dann package-private)
 	 */
-	Container(){
+	private Container(){
 		liste = new ArrayList<UserStory>();
 	}
 	
@@ -68,7 +69,6 @@ public class Container {
 	 * (hier koennen ggf. weitere Initialisierungsarbeiten gemacht werden spaeter)
 	 */
 	public static void main (String[] args) throws Exception {
-		// ToDo: Bewertung Exception-Handling (F3, F7)
 		Container con = Container.getInstance();
 		con.startEingabe(); 
 	}
@@ -82,12 +82,12 @@ public class Container {
 		String strInput = null;
 		
 		// Initialisierung des Eingabe-View
-		// ToDo: Funktionsweise des Scanners erklären (F3)
 		Scanner scanner = new Scanner( System.in );
 
 		while ( true ) {
 			// Ausgabe eines Texts zur Begruessung
-			System.out.println("UserStory-Tool V1.0 by Julius P. (dedicated to all my friends)");
+			System.out.println("UserStory-Tool V1.0 by Julius P. (dedicated to all my friends) edited " +
+					"a little bit by Anastasiia Pashynska");
 
 			System.out.print( "> "  );
 
@@ -98,28 +98,104 @@ public class Container {
 
 			// 	Falls 'help' eingegeben wurde, werden alle Befehle ausgedruckt
 			if ( strings[0].equals("help") ) {
-				System.out.println("Folgende Befehle stehen zur Verfuegung: help, dump....");
+				System.out.println("Folgende Befehle stehen zur Verfuegung: " +
+						"help, dump, enter, store, load, exit");
 			}
 			// Auswahl der bisher implementierten Befehle:
 			if ( strings[0].equals("dump") ) {
 				startAusgabe();
+				dumpStories();
 			}
 			// Auswahl der bisher implementierten Befehle:
 			if ( strings[0].equals("enter") ) {
+				this.addUserStory(enterData(scanner));
+				System.out.println("UserSTory was succesfull added!");
 				// Daten einlesen ...
 				// this.addUserStory( new UserStory( data ) ) um das Objekt in die Liste einzufügen.
+
 			}
 								
 			if (  strings[0].equals("store")  ) {
-				// Beispiel-Code
-				UserStory userStory = new UserStory();
-				userStory.setId(22);
-				this.addUserStory( userStory );
 				this.store();
 			}
-		} // Ende der Schleife
+
+			if (  strings[0].equals("load")  ) {
+				this.load();
+			}
+			if (  strings[0].equals("exit")  ) {
+				System.out.println("Closing the programm...");
+				break;
+			}
+		}scanner.close();// Ende der Schleife
 	}
 
+	private void dumpStories() {
+		String format = "| %-10s | %-30s | %-20s | %-15s | %n";
+		System.out.format("+------------+--------------------------------+----------------------+-----------------+%n");
+		System.out.format("| ID         | Titel                   | Priority | Project         |%n");
+		System.out.format("+------------+--------------------------------+----------------------+-----------------+%n");
+		for (UserStory story : this.liste) {
+			System.out.format(format, story.getId(), story.getTitel(), story.getPrio(), story.getProject());
+		}
+		System.out.format("+------------+--------------------------------+----------------------+-----------------+%n");
+	}
+
+	/**
+	 * Hilsfsmethode fuer enter-Option in der Methode startEingabe()
+	 * @param scanner
+	 * @return UserStory
+	 */
+	private static UserStory enterData(Scanner scanner) {
+		UserStory userStory = new UserStory();
+		System.out.print("ID: ");
+		userStory.setId(scanner.nextInt());
+		System.out.print("Aufwand: ");
+		int temp = scanner.nextInt();
+		if (temp<= 0 | temp > 5) {
+			while (temp <= 0 | temp > 5) {
+				System.out.print("Wrong value! 0 < Aufwand <= 5!");
+				System.out.print("Aufwand: ");
+				temp = scanner.nextInt();
+			}
+		}
+		userStory.setAufwand(temp);
+		System.out.print("Titel: ");
+		userStory.setTitel(scanner.next());
+		System.out.print("Mehrwert: ");
+		temp = scanner.nextInt();
+		if (temp <= 0 | temp > 5) {
+			while (temp <= 0 | temp > 5) {
+				System.out.print("Wrong value! 0 < Mehrwert <= 5!");
+				System.out.print("Mehrwert: ");
+				temp = scanner.nextInt();
+			}
+		}
+		userStory.setMehrwert(temp);
+		System.out.print("Strafe: ");
+		temp = scanner.nextInt();
+		if (temp <= 0 | temp > 5) {
+			while (temp <= 0 | temp > 5) {
+				System.out.print("Wrong value! 0 < Strafe <= 5!");
+				System.out.print("Strafe: ");
+				temp = scanner.nextInt();
+			}
+		}
+		userStory.setStrafe(temp);
+		System.out.print("Risk: ");
+		temp = scanner.nextInt();
+		if (temp<= 0 | temp > 5) {
+			while (temp <= 0 | temp > 5) {
+				System.out.print("Wrong value! 0 < Risk <= 5!");
+				System.out.print("Risk: ");
+				temp = scanner.nextInt();
+			}
+		}
+		userStory.setRisk(temp);
+		System.out.print("Project: ");
+		userStory.setProject(scanner.next());
+		userStory.findPrio();
+		return userStory;
+	}
 	/**
 	 * Diese Methode realisiert die Ausgabe.
 	 */
@@ -129,7 +205,7 @@ public class Container {
 		// ausgeben. Allerdings weiss der Student hier nicht weiter
 
 		// [Sortierung ausgelassen]
-		// Todo: Implementierung Sortierung (F4)
+		Collections.sort( this.liste );
 
 		// Klassische Ausgabe ueber eine For-Each-Schleife
 		for (UserStory story : liste) {
@@ -139,7 +215,11 @@ public class Container {
 		// [Variante mit forEach-Methode / Streams (--> Kapitel 9, Lösung Übung Nr. 2)?
 		//  Gerne auch mit Beachtung der neuen US1
 		// (Filterung Projekt = "ein Wert (z.B. Coll@HBRS)" und Risiko >=5
-		// Todo: Implementierung Filterung mit Lambda (F5)
+		List <UserStory> storyList = this.liste.stream()
+				.filter(story -> story.getRisk() >= 5)
+				.filter(story -> story.getProject().equals("Coll@HBRS"))
+				.toList();
+
 
 	}
 
