@@ -23,7 +23,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     @Override
     /**
      * Used only for openining a connection for storing objects
-     * Exception occurs in some SDKs, when both are created (TODO!)
+     * Exception occurs in some SDKs, when both are created
      * Workaround: open the Streams in the load method
      */
     public void openConnection() throws PersistenceException {
